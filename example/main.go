@@ -5,8 +5,8 @@ import (
 	"log"
 	"time"
 
+	"github.com/ingvarhk/pocketbase"
 	"github.com/mitchellh/mapstructure"
-	"github.com/r--w/pocketbase"
 )
 
 type Post struct {
