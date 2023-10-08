@@ -183,12 +183,9 @@ func (c *Client) List(collection string, params ParamsList) (ResponseList[map[st
 	}
 
 	resp, err := request.Get(c.url + "/api/collections/{collection}/records")
-
 	if err != nil {
 		return response, fmt.Errorf("[list] can't send update request to pocketbase, err %w", err)
 	}
-
-	defer resp.RawResponse.Body.Close()
 
 	if resp.IsError() {
 		return response, fmt.Errorf("[list] pocketbase returned status: %d, msg: %s, err %w",
@@ -202,17 +199,9 @@ func (c *Client) List(collection string, params ParamsList) (ResponseList[map[st
 	if params.hackResponseRef != nil {
 		responseRef = params.hackResponseRef
 	}
-	//val, err := json.MarshalIndent(resp.RawResponse.Body, "", "    ")
-	//fmt.Println(string(val))
-
-	//if err != nil {
-	//	fmt.Println(err)
-	//}
-
 	if err := json.Unmarshal(resp.Body(), responseRef); err != nil {
 		return response, fmt.Errorf("[list] can't unmarshal response, err %w", err)
 	}
-
 	return response, nil
 }
 
